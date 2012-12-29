@@ -15,7 +15,7 @@ module ActionNotFound
 
   def formatted_action_not_found(formatted, base_path)
     formatted.each do |route|
-      route =~ /\)\s(.*?)#(.*?)$/
+      route =~ /\)\s+(.*?)#(.*?)$/
       controller_path = base_path.join("#{$1}_controller.rb")
       begin
         unless File.readlines(controller_path).grep(/def\s#{$2}/).size > 0
