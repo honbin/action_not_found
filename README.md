@@ -1,4 +1,4 @@
-# UnusedView
+# ActionNotFound
 This is a Rails plugin to see not found action.
 
 ## Usage
