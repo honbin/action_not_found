@@ -14,17 +14,22 @@ module ActionNotFound
   end
 
   def formatted_action_not_found(formatted, base_path)
-    formatted.each do |route|
+    not_found_controller_count = 0
+    not_found_action_count = 0
+    formatted_action_not_found = formatted.each do |route|
       route =~ /\/(.*?)\s+(.*?)#(.*?)$/
       controller_path = base_path.join("#{$2}_controller.rb")
       begin
         unless File.readlines(controller_path).grep(/def\s#{$3}/).size > 0
           route << " #=> not found action"
+          not_found_action_count += 1
         end
       rescue
         route << " #=> not found controller file"
+        not_found_controller_count += 1
       end
     end
+    formatted_action_not_found.push("\n#{formatted.size} routes, #{not_found_action_count} not found actions, #{not_found_controller_count} not controller files")
   end
 
   def process_rails_3_2(all_routes)
